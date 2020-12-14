@@ -1,6 +1,6 @@
-#Embody - Software Engineer Intern Assignment
+# Embody - Software Engineer Intern Assignment
 
-The project is a REST API based on Flask Microframework in Python. The main function of the API is to return the user_key associated with a particular user, when user_id is passed in a GET request as a query string. 
+The project is a REST API based on Flask microframework in Python. The main function of the API is to return the user_key associated with a particular user, when user_id is passed in a GET request as a query string. 
 
 The **logistics** of the projects is as follows:
 1) Language and Framework - Python, Flask
@@ -10,17 +10,17 @@ The **logistics** of the projects is as follows:
 
 *app1, app2, app3* represent the Flask API that is run on 3 separate instances of Docker on ports *5001, 5002, 5003* respectively.
 
-##Working
-Intially, the API was developed without having the reverse proxy server nginx setup. After that, nginx load balancing along with Docker.
+## Working
+Intially, the API was developed without having the reverse proxy server nginx setup. After that, nginx load balancing along with Docker was added.
 There are 3 **endpoints** in the REST API
 1) **/ [GET]** - Returns Hello World! (for testing purpose)
 2) **/ping [GET]** - Returns PONG (for testing purpose)
 3) **/getuserkey [GET]** - Expects a query param: user_id=someRandomId 
     e.g. `/getuserkey?user_id=maharshi`
 
-The working of project is such that it looks in the database for the existence of the particular user_id, if the user_id is found in the database, the respective user_key(length=32) is returned. Otherwise, a new user_key is generated for the user and returned in the JSON response along with the port number serving that request.
+The working of project is such that we look in the database for the existence of the particular user_id, if the user_id is found in the database, the respective user_key(length=32) is returned. Otherwise, a new user_key is generated for the user and returned in the JSON response along with the port number serving that request.
 
-##How to Run
+## How to Run
 To run the project, go to the project directory and run the command:
 1) `sudo docker-compose up --build`
   This will run the project in the *localhost:5000*.
