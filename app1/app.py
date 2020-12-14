@@ -1,39 +1,52 @@
 import string
 import random
+import redis
 
 from flask import Flask
 from flask import request
 from flask import jsonify
-import redis
 
 app = Flask(__name__)
 
+# Redis Connection
 r = redis.Redis(host='db', port=6379, db=0)
 
-@app.route('/ping', methods=['GET'])
-def ping():
-    return 'PONG'
 
+# Route for /
 @app.route('/', methods=['GET'])
 def hello_world():
     return 'Hello World!'
 
+
+# Route for /ping - testing
+@app.route('/ping', methods=['GET'])
+def ping():
+    return 'PONG'
+
+
+# Route to get the user key for a particular user id
 @app.route('/getuserkey', methods=['GET'])
 def user_key():
     user_id = request.args.to_dict()['user_id']
-    cached_key =  r.get(user_id)
-    if cached_key is None :     #enter user id in cache
-        #generate random user key of length 16
-        res = ''.join(random.choices(string.ascii_uppercase + string.digits, k=16))
+    cached_key = r.get(user_id)
+    # check if passesd user id in db or not
+    if cached_key is None:
+        # generate random user key of length 16
+        res = ''.join(random.choices(string.ascii_uppercase + string.digits, k=32))
+        # set in redis db
         r.set(user_id, res)
+        # return value
         cached_key = res
-    else :
+    else:
+        # if key is present, decode it from bytes
         cached_key = cached_key.decode('utf-8')
-    
+
+    # return response
     return jsonify(
         user_key=cached_key,
         port_number=5001
     )
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
