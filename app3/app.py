@@ -30,7 +30,7 @@ def user_key():
     cached_key =  r.get(user_id)
     # check if passesd user id in db or not
     if cached_key is None :
-        #generate random user key of length 16
+        #generate random user key of length 32
         res = ''.join(random.choices(string.ascii_uppercase + string.digits, k=32))
         #set in redis db
         r.set(user_id, res)
