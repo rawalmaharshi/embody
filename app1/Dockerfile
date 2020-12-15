@@ -1,7 +1,7 @@
 # using a python small basic image
 FROM python:alpine
 # exposing our app port in docker internal network
-EXPOSE 5000
+EXPOSE 5001
 # creates a dir for our application
 WORKDIR /app
 # copy our requirements.txt file and install dependencies
